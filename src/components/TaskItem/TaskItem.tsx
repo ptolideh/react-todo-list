@@ -4,7 +4,7 @@ import { Checkbox } from "../ui/checkbox";
 import { cn } from "@/lib/utils";
 
 type TaskItemProps = Todo & {
-  onTaskCheck: (id: string) => void;
+  onTaskCheck: () => void;
 };
 
 function TaskItem({ id, text, completed, onTaskCheck }: TaskItemProps) {
@@ -14,9 +14,7 @@ function TaskItem({ id, text, completed, onTaskCheck }: TaskItemProps) {
         id={id}
         value={id}
         checked={completed}
-        onCheckedChange={() => {
-          onTaskCheck(id);
-        }}
+        onCheckedChange={onTaskCheck}
         className="mt-1"
       />
       <label
