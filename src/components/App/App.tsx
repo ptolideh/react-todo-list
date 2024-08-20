@@ -10,6 +10,7 @@ type Reducer<T> = (
   action:
     | { type: "ADD_TODO"; text: string }
     | { type: "TOGGLE_TODO"; todoId: string }
+    | { type: "DELETE_TODO"; todoId: string }
 ) => T;
 
 const todoReducer: Reducer<Todo[]> = (state, action) => {
@@ -30,6 +31,12 @@ const todoReducer: Reducer<Todo[]> = (state, action) => {
           return nextTodo;
         }
         return todo;
+      });
+    case "DELETE_TODO":
+      return state.filter((todo) => {
+        if (todo.id !== action.todoId) {
+          return todo;
+        }
       });
     default:
       return state;
@@ -69,6 +76,7 @@ function App() {
               text={text}
               completed={completed}
               onTaskCheck={() => dispatch({ type: "TOGGLE_TODO", todoId: id })}
+              onTaskDelete={() => dispatch({ type: "DELETE_TODO", todoId: id })}
             />
           ))}
         </div>
