@@ -9,7 +9,7 @@ type TaskItemProps = Todo & {
 
 function TaskItem({ id, text, completed, onTaskCheck }: TaskItemProps) {
   return (
-    <div className="flex items-start gap-2 w-full py-2 pr-3">
+    <div className="flex items-start gap-2 w-full py-1 pr-3">
       <Checkbox
         id={id}
         value={id}
