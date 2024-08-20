@@ -1,7 +1,9 @@
-import { ReactNode, useCallback, useReducer, useState } from "react";
+import { ReactNode, useCallback, useEffect, useReducer, useState } from "react";
 import TaskInput from "../TaskInput";
 import TaskItem from "../TaskItem";
 import { Todo } from "@/lib/shared-types";
+
+const LOCAL_STORAGE_KEY = "todos" as const;
 
 type Reducer<T> = (
   state: T,
@@ -35,7 +37,19 @@ const todoReducer: Reducer<Todo[]> = (state, action) => {
 };
 
 function App() {
-  const [todos, dispatch] = useReducer(todoReducer, []);
+  const [todos, dispatch] = useReducer(todoReducer, null, () => {
+    // load from localstorage
+    const json: string | null = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (json !== null) {
+      return JSON.parse(json) as Todo[];
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    const json = JSON.stringify(todos);
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, json);
+  }, [todos]);
 
   return (
     <main className="container mx-auto bg-orange-100">
